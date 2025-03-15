@@ -7,7 +7,8 @@ const connection = mysql.createConnection({
   password:process.env.password,
   database: process.env.database
 });
-
+//connecting string
+// mysql://root:RCFQMmrkbBMtrxzyrHDpTuEKslFWSXXu@mysql.railway.internal:3306/railway
 connection.connect((err) => {
   if (err) {
     console.error('Error connecting to the database:', err.stack);
