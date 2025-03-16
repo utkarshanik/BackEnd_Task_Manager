@@ -12,20 +12,31 @@ const connection = mysql.createConnection({
 // mysql://root:RCFQMmrkbBMtrxzyrHDpTuEKslFWSXXu@mysql.railway.internal:3306/railway
 //mysql://root:XvFibdEujzpNuKSsKRuBNzMwaPESSvof@metro.proxy.rlwy.net:21469/railway
 
+// connection.connect((err) => {
+//   if (err) {
+//     console.error('Error connecting to the database:', err.stack);
+//     return;
+//   }
+//   console.log('Successfully connected to the database');
+//   setInterval(() => {
+//     connection.query("SELECT 1", (err) => {
+//       if (err) console.error("Keep-alive query failed:", err);
+//     });
+//   }, 300000); // 5 minutes
+// });
+
+// module.exports=connection;
+
 connection.connect((err) => {
   if (err) {
     console.error('Error connecting to the database:', err.stack);
     return;
   }
   console.log('Successfully connected to the database');
-  setInterval(() => {
-    connection.query("SELECT 1", (err) => {
-      if (err) console.error("Keep-alive query failed:", err);
-    });
-  }, 300000); // 5 minutes
 });
 
 module.exports=connection;
+
 // connection.end((err) => {
 //   if (err) {
 //     console.error('Error closing the connection:', err.stack);
