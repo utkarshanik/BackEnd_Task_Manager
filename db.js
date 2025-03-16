@@ -10,6 +10,8 @@ const connection = mysql.createConnection({
 });
 //connecting string
 // mysql://root:RCFQMmrkbBMtrxzyrHDpTuEKslFWSXXu@mysql.railway.internal:3306/railway
+//mysql://root:XvFibdEujzpNuKSsKRuBNzMwaPESSvof@metro.proxy.rlwy.net:21469/railway
+
 connection.connect((err) => {
   if (err) {
     console.error('Error connecting to the database:', err.stack);
