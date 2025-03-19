@@ -17,6 +17,34 @@ router.use((req, res, next) => {
 // Route to insert a new task
 router.post('/add', (req, res) => {
   const { task_owner, task_name, task_detail, start_date, end_date, reminder, priority, status } = req.body;
+
+    // Validate Task Name
+    if (!task_name || task_name.trim().length < 3) {
+      return res.status(400).json({ error: 'Task name must be at least 3 characters long.' });
+    }
+  
+    // Validate Dates
+    // if (!isValidDate(start_date) || !isValidDate(end_date) || !isValidDate(reminder)) {
+    //   return res.status(400).json({ error: 'Invalid date format. Please use YYYY-MM-DD.' });
+    // }
+  
+    const today = new Date().setHours(0, 0, 0, 0);
+    const startDate = new Date(start_date);
+    const endDate = new Date(end_date);
+    const reminderDate = new Date(reminder);
+  
+    if (startDate < today) {
+      return res.status(400).json({ error: 'Start date cannot be in the past.' });
+    }
+  
+    if (endDate < startDate) {
+      return res.status(400).json({ error: 'End date must be after the start date.' });
+    }
+  
+    if (reminderDate < today) {
+      return res.status(400).json({ error: 'Reminder date cannot be in the past.' });
+    }
+  
   const insertQuery = `INSERT INTO task (task_owner, task_name, task_detail, start_date, end_date, reminder, priority, status) 
   VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
   const taskData = [task_owner, task_name, task_detail, start_date, end_date, reminder, priority, status];
@@ -30,6 +58,33 @@ router.post('/add', (req, res) => {
     res.status(201).send({message:'Task Added Suceesfully'});
   });
 });
+
+// router.post('/add', (req, res) => {
+//   const { task_owner, task_name, task_detail, start_date, end_date, reminder, priority, status } = req.body;
+
+
+//   // If validation passes, insert data
+//   const insertQuery = `INSERT INTO task (task_owner, task_name, task_detail, start_date, end_date, reminder, priority, status) 
+//                       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+//   const taskData = [task_owner, task_name, task_detail, start_date, end_date, reminder, priority, status];
+
+//   connection.query(insertQuery, taskData, (err, results) => {
+//     if (err) {
+//       console.error('Error inserting data:', err.stack);
+//       return res.status(500).json({ error: 'Please Insert Valid Data' });
+//     }
+//     res.status(201).json({ message: 'Task Added Successfully' });
+//   });
+// });
+
+
+
+
+
+
+
+
+
 
 // Route to View all tasks
 router.get('/view', (req, res) => {
